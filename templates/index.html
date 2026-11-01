@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% from '_card.html' import card %}{% block body %}
+<section class="hero"><div class="blob b1"></div><div class="blob b2"></div>
+<div class="hero-text"><span class="pill">✦ Pune's friendliest bookshop</span><h1>Find your next <em>favourite</em> read.</h1>
+<p>{{ stats.n }} handpicked titles · {{ stats.c }} copies on the shelf · instant billing, always in stock.</p>
+<div class="ctas"><a class="btn" href="{{ url_for('books') }}">Browse the shelves →</a><a class="btn ghost" href="#cats">Explore genres</a></div></div>
+<div class="stack">{% for b in hero %}<img class="float f{{ loop.index }}" src="{{ url_for('cover', bid=b.id) }}" alt="{{ b.title }}">{% endfor %}</div></section>
+<div class="marquee"><div>{% for i in range(2) %}{% for c in cats %}<span>{{ c.name }}</span><i>✦</i>{% endfor %}{% endfor %}</div></div>
+<section class="wrap perks"><div class="reveal"><b>🚚</b>Free pickup in store</div><div class="reveal"><b>🔒</b>Secure billing</div><div class="reveal"><b>⚡</b>Live stock, instant bills</div><div class="reveal"><b>🎁</b>Staff discounts &amp; offers</div></section>
+<section class="wrap" id="cats"><h2 class="h">Shop by genre</h2><div class="cats">{% for c in cats %}
+<a class="cat reveal" href="{{ url_for('books', cat=c.id) }}"><img src="{{ url_for('cover', bid=c.cover or 1) }}" alt=""><div><h3>{{ c.name }}</h3><p>{{ c.tagline }}</p><small>{{ c.n }} titles</small></div></a>{% endfor %}</div></section>
+<section class="wrap"><h2 class="h">Readers' favourites</h2><div class="grid">{% for b in featured %}{{ card(b) }}{% endfor %}</div></section>
+<section class="wrap numbers"><div class="reveal"><b data-n="{{ stats.n }}">0</b>Book titles</div><div class="reveal"><b data-n="{{ stats.c }}">0</b>Copies in stock</div><div class="reveal"><b data-n="{{ cats|length }}">0</b>Genres</div><div class="reveal"><b data-n="100">0</b>% accurate bills</div></section>
+{% endblock %}

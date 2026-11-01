@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% from '_card.html' import card %}{% block body %}<section class="wrap detail"><div class="big tilt"><img src="{{ url_for('cover', bid=b.id) }}" alt="{{ b.title }}"></div>
+<div><small class="pill">{{ b.category }}</small><h1>{{ b.title }}</h1><p class="muted">by {{ b.author }} · <span class="star">★ {{ b.rating }}</span> · ISBN {{ b.isbn }}</p>
+<p class="blurb">{{ b.blurb }}</p><div class="price">₹{{ '%.0f'|format(b.price) }}</div>
+<p>{% if b.stock==0 %}<span class="tag static">Sold out</span>{% elif b.stock<=b.reorder_level %}<span class="tag static">Hurry — only {{ b.stock }} left</span>{% else %}✔ In stock ({{ b.stock }} copies){% endif %}</p>
+<form method="post" action="{{ url_for('cart_add', bid=b.id) }}"><button class="btn" {% if b.stock==0 %}disabled{% endif %}>🛒 Add to cart</button></form></div></section>
+{% if similar %}<section class="wrap"><h2 class="h">You may also like</h2><div class="grid">{% for s in similar %}{{ card(s) }}{% endfor %}</div></section>{% endif %}{% endblock %}

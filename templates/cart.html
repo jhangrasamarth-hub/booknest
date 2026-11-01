@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block body %}<section class="wrap narrow"><h2 class="h">Your cart</h2>
+{% if not items %}<p class="muted">Your cart is empty.</p><a class="btn" href="{{ url_for('books') }}">Start shopping</a>{% else %}
+{% for i in items %}<div class="line reveal"><img src="{{ url_for('cover', bid=i.book.id) }}" alt=""><div><b>{{ i.book.title }}</b><p class="muted">{{ i.book.author }} · ₹{{ '%.0f'|format(i.book.price) }}</p></div>
+<form method="post" action="{{ url_for('cart_update', bid=i.book.id) }}"><input type="number" name="qty" min="0" max="{{ i.book.stock }}" value="{{ i.qty }}" onchange="this.form.submit()"></form><strong>₹{{ '%.2f'|format(i.amt) }}</strong></div>{% endfor %}
+<form class="bill" method="post" action="{{ url_for('checkout') }}"><input name="customer" placeholder="Customer name (optional)">
+{% if role %}<label>Discount % <output id="dv">0</output><input type="range" id="disc" name="discount" min="0" max="100" value="0"></label>{% endif %}
+<table><tr><td>Subtotal</td><td id="sub" data-v="{{ sub }}">₹{{ '%.2f'|format(sub) }}</td></tr><tr><td>Discount</td><td id="dd">-₹0.00</td></tr><tr><td>Tax ({{ (tax_rate*100)|int }}%)</td><td id="tx"></td></tr><tr class="tot"><td>Total</td><td id="tt"></td></tr></table>
+<button class="btn">Generate bill →</button></form>{% endif %}</section>{% endblock %}

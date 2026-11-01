@@ -1,0 +1,5 @@
+{% macro card(b) %}<article class="card reveal"><a href="{{ url_for('book', bid=b.id) }}" class="cv"><img loading="lazy" src="{{ url_for('cover', bid=b.id) }}" alt="Cover of {{ b.title }}">
+{% if b.stock <= b.reorder_level %}<span class="tag">{% if b.stock==0 %}Sold out{% else %}Only {{ b.stock }} left{% endif %}</span>{% endif %}</a>
+<div class="meta"><small>{{ b.category }}</small><h3><a href="{{ url_for('book', bid=b.id) }}">{{ b.title }}</a></h3><p>{{ b.author }}</p>
+<div class="row"><strong>₹{{ '%.0f'|format(b.price) }}</strong><span class="star">★ {{ b.rating }}</span></div>
+<form method="post" action="{{ url_for('cart_add', bid=b.id) }}"><button class="btn sm" {% if b.stock==0 %}disabled{% endif %}>+ Add to cart</button></form></div></article>{% endmacro %}

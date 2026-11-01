@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block body %}<section class="wrap narrow"><div class="paper"><h2>Invoice #{{ '%05d'|format(s.id) }}</h2>
+<p class="muted">{{ s.sold_at }} · Customer: {{ s.customer }} · Cashier: {{ s.username or 'Online' }}</p>
+<table class="tbl"><tr><th>Item</th><th>Qty</th><th>Amount</th></tr>{% for i in items %}<tr><td>{{ i.title }}</td><td>{{ i.qty }}</td><td>₹{{ '%.2f'|format(i.price*i.qty) }}</td></tr>{% endfor %}</table>
+<table class="bill-t"><tr><td>Subtotal</td><td>₹{{ s.subtotal }}</td></tr><tr><td>Discount</td><td>-₹{{ s.discount }}</td></tr><tr><td>Tax (5%)</td><td>₹{{ s.tax }}</td></tr><tr class="tot"><td>Payable</td><td>₹{{ s.total }}</td></tr></table>
+<p class="muted">Thank you for shopping at BookNest! 📚</p></div><button class="btn" onclick="print()">🖨 Print / Save as PDF</button> <a class="btn ghost" href="{{ url_for('books') }}">Continue shopping</a></section>{% endblock %}

@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% from '_card.html' import card %}{% block body %}<section class="wrap"><h2 class="h">The shelves</h2>
+<form class="filters" method="get"><input name="q" value="{{ term }}" placeholder="Search title, author, ISBN">
+<select name="cat" onchange="this.form.submit()"><option value="">All genres</option>{% for c in cats %}<option value="{{ c.id }}" {% if cat==c.id|string %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select>
+<select name="sort" onchange="this.form.submit()"><option value="">A–Z</option><option value="low" {% if sort=='low' %}selected{% endif %}>Price: low → high</option><option value="high" {% if sort=='high' %}selected{% endif %}>Price: high → low</option><option value="rated" {% if sort=='rated' %}selected{% endif %}>Top rated</option></select><button class="btn sm">Search</button></form>
+<p class="muted">{{ books|length }} book(s) found</p><div class="grid">{% for b in books %}{{ card(b) }}{% else %}<p>No books match. Try another search.</p>{% endfor %}</div></section>{% endblock %}
